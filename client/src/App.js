@@ -20,9 +20,9 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col w-full items-center justify-center">
-      <div className="">
-      <h3>Join a chat</h3>
+    <div className="flex flex-col pt-32 w-full items-center h-screen bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900">
+      <div className="text-white">
+      <h3 className="items-center flex flex-col">Join a chat</h3>
       <input
         className="border"
         type="text"
