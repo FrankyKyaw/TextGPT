@@ -12,36 +12,41 @@ const socket = io.connect("http://localhost:3001");
 function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
+  const [showChat, setShowChat] = useState(false);
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
       socket.emit("join_room", room);
+      setShowChat(true);
     }
   };
 
   return (
     <div className="flex flex-col pt-32 w-full items-center h-screen bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900">
-      <div className="text-white">
-      <h3 className="items-center flex flex-col">Join a chat</h3>
-      <input
-        className="border"
-        type="text"
-        placeholder="Name..."
-        onChange={(event) => {
-          setUsername(event.target.value);
-        }}
-      ></input>
-      <input
-        className="border"
-        type="text"
-        placeholder="Room ID..."
-        onChange={(event) => {
-          setRoom(event.target.value);
-        }}
-      ></input>
-      <button onClick={joinRoom}>Join a Room</button>
-      </div>
-      <Chat socket={socket} username={username} room={room}/>
+      {!showChat ? (
+        <div className="">
+          <h3 className="items-center flex flex-col">Join a chat</h3>
+          <input
+            className="border"
+            type="text"
+            placeholder="Name..."
+            onChange={(event) => {
+              setUsername(event.target.value);
+            }}
+          />
+          <input
+            className="border"
+            type="text"
+            placeholder="Room ID..."
+            onChange={(event) => {
+              setRoom(event.target.value);
+            }}
+          />
+          <button onClick={joinRoom}>Join a Room</button>
+        </div>
+      ) : (
+        <Chat socket={socket} username={username} room={room} />
+      )}
     </div>
 
     // <BrowserRouter>

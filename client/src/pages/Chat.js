@@ -1,14 +1,55 @@
 import React from "react";
+import { useState, useEffect } from "react";
 
 export default function Chat({ socket, username, room }) {
+  const [currentMessage, setCurrentMessage] = useState("");
+  const [messageList, setMessageList] = useState([]);
+
+  const sendMessage = async () => {
+    if (currentMessage !== "") {
+      const messageData = {
+        key: Math.random(),
+        room: room,
+        author: username,
+        message: currentMessage,
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };
+
+      await socket.emit("send_message", messageData);
+      setMessageList((list) => [...list, messageData]);
+      console.log(messageList)
+    }
+  };
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageList((list) => [...list, data]);
+    });
+  }, [socket]);
+
   return (
-    <div className="">
+    <div className="text-white">
       <div>Live Chat</div>
-      <div className="h-20 border"></div>
+      <div className="h-20 border">
+        {messageList.map((messageContent) => {
+          return <h1 key={messageContent.key}>{messageContent.message}</h1>;
+        })}
+      </div>
       <div>
-      <input type="text" placeholder="Write your message!" class="focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"/>
+        <input
+          type="text"
+          onChange={(event) => {
+            setCurrentMessage(event.target.value);
+          }}
+          placeholder="Write your message!"
+          class="focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
+        />
         <button
           type="button"
+          onClick={sendMessage}
           class="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
         >
           <span class="font-bold">Send</span>

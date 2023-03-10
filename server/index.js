@@ -24,6 +24,10 @@ io.on("connection", (socket) => {
     console.log(`User with id ${socket.id} is in room ${data}`)
   })
   
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  })
+
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
   });
@@ -33,18 +37,3 @@ io.on("connection", (socket) => {
 server.listen(3001, () => {
   console.log("SERVER RUNNING");
 });
-
-// const server = app.listen(process.env.PORT, () => {
-//   console.log(`Server started on Port ${process.env.PORT}`);
-// });
-
-// mongoose.connect(process.env.MONGO_URL, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// }).then(() => {
-//   console.log("DB Connection Successful!");
-// }).catch((err) => {
-//   console.log(err);
-// }).finally(() => {
-//   console.log('finally')
-// })
