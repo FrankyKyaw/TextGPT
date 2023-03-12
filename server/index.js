@@ -1,9 +1,9 @@
 const express = require("express");
+const app = express();
+const http = require("http");
 const cors = require("cors");
 // const mongoose = require("mongoose");
-const app = express();
 // require("dotenv").config();
-const http = require("http");
 const { Server } = require("socket.io");
 app.use(cors());
 
@@ -21,18 +21,17 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     socket.join(data);
-    console.log(`User with id ${socket.id} is in room ${data}`)
-  })
-  
+    console.log(`User with id ${socket.id} is in room ${data}`);
+  });
+
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
-  })
+  });
 
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
   });
 });
-
 
 server.listen(3001, () => {
   console.log("SERVER RUNNING");

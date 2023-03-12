@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Chat from "./pages/Chat";
+import Chat from "./Chat";
 import Home from "./pages/Home";
 import { io } from "socket.io-client";
 import { useState } from "react";
