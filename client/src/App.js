@@ -22,27 +22,34 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col pt-32 w-full items-center h-screen bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900">
+    <div className="flex flex-col pt-32 w-full items-center h-screen bg-gray-800">
       {!showChat ? (
-        <div className="">
-          <h3 className="items-center flex flex-col">Join a chat</h3>
-          <input
-            className="border"
-            type="text"
-            placeholder="Name..."
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-          <input
-            className="border"
-            type="text"
-            placeholder="Room ID..."
-            onChange={(event) => {
-              setRoom(event.target.value);
-            }}
-          />
-          <button onClick={joinRoom}>Join a Room</button>
+        <div className="block rounded-lg bg-white p-10">
+          <h3 className="flex justify-center">Join a chat</h3>
+          <div className="flex space-x-3 p-4">
+            <input
+              className="border p-3"
+              type="text"
+              placeholder="Name..."
+              onChange={(event) => {
+                setUsername(event.target.value);
+              }}
+            />
+            <input
+              className="border p-3"
+              type="text"
+              placeholder="Room ID..."
+              onChange={(event) => {
+                setRoom(event.target.value);
+              }}
+            />
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={joinRoom}
+            >
+              Join a Room
+            </button>
+          </div>
         </div>
       ) : (
         <Chat socket={socket} username={username} room={room} />

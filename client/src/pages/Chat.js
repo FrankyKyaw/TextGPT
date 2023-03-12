@@ -31,9 +31,9 @@ export default function Chat({ socket, username, room }) {
   }, [socket]);
 
   return (
-    <div className="text-white">
+    <div className="bg-gray-700 text-white p-4 rounded-md">
       <div>Live Chat</div>
-      <div className="h-20 border">
+      <div className="h-60">
         {messageList.map((messageContent) => {
           return <h1 key={messageContent.key}>{messageContent.message}</h1>;
         })}
@@ -45,12 +45,12 @@ export default function Chat({ socket, username, room }) {
             setCurrentMessage(event.target.value);
           }}
           placeholder="Write your message!"
-          class="focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
+          class="focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 py-3"
         />
         <button
           type="button"
           onClick={sendMessage}
-          class="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+          class="inline-flex items-center justify-center  px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
         >
           <span class="font-bold">Send</span>
           <svg
