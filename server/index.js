@@ -14,6 +14,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 app.use(cors());
+app.use(express.json());
 
 const server = http.createServer(app);
 
@@ -45,6 +46,14 @@ app.post("/suggest", async (req, res) => {
   try {
     const message = req.body.message;
 
+    // const completion = await openai.createCompletion({
+    //   model: "gpt-3.5-turbo",
+    //   prompt: "Hi, how are you",
+    //   temperature: 0.6,
+    // });
+    // const result = completion.data.choices[0].text;
+    // res.status(200).json({ resu: result });
+
     const completions = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
@@ -55,14 +64,37 @@ app.post("/suggest", async (req, res) => {
         },
         {
           role: "user",
-          content: `Suggest a message to text back based on this text: ${message}`,
+          content: `${message}`,
         },
       ],
     });
-    res.json({ completions });
+    // parse the response from OpenAI as json
+    // console.log(completions.data.choices[0].message.content)
+
+    // get the bot's answer from the OpenAI API response
+    const botAnswer = completions?.data.choices?.[0]?.message?.content
+
+    // create the bot message object
+    const botMessage = { role: "assistant", content: botAnswer };
+
+    // store bot message in global message state
+    console.log(botMessage)
+
+    // send the bot's answer back to the client
+    return res.json({ data: botAnswer });
+
   } catch (error) {
-    console.log(error);
-    res.status(500).send("An error occured while processing the message.");
+    if (error.response) {
+      console.error(error.response.status, error.response.data);
+      res.status(error.response.status).json(error.response.data);
+    } else {
+      console.error(`Error with OpenAI API request: ${error.message}`);
+      res.status(500).json({
+        error: {
+          message: "An error occurred during your request.",
+        },
+      });
+    }
   }
 });
 

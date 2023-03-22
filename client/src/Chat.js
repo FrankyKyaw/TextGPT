@@ -18,6 +18,26 @@ function Chat({ socket, username, room }) {
       };
 
       await socket.emit("send_message", messageData);
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: currentMessage }),
+      };
+
+      const apiResponse = fetch("http://localhost:3001/suggest", requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching suggestion:", error);
+        });
+      
       setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
     }
