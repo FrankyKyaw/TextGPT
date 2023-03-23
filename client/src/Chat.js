@@ -18,10 +18,17 @@ function Chat({ socket, username, room }) {
       };
 
       await socket.emit("send_message", messageData);
+      setMessageList((list) => [...list, messageData]);
+      setCurrentMessage("");
+    }
+  };
+  
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: currentMessage }),
+        body: JSON.stringify({ message: data.message }),
       };
 
       const apiResponse = fetch("http://localhost:3001/suggest", requestOptions)
@@ -37,14 +44,6 @@ function Chat({ socket, username, room }) {
         .catch((error) => {
           console.error("Error fetching suggestion:", error);
         });
-      
-      setMessageList((list) => [...list, messageData]);
-      setCurrentMessage("");
-    }
-  };
-
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
       setMessageList((list) => [...list, data]);
     });
   }, [socket]);

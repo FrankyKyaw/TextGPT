@@ -53,7 +53,6 @@ app.post("/suggest", async (req, res) => {
     // });
     // const result = completion.data.choices[0].text;
     // res.status(200).json({ resu: result });
-
     const completions = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
@@ -64,7 +63,7 @@ app.post("/suggest", async (req, res) => {
         },
         {
           role: "user",
-          content: `${message}`,
+          content: `Imagine you are a person on that received this text. ${message} Generate a possible response `,
         },
       ],
     });
@@ -72,17 +71,17 @@ app.post("/suggest", async (req, res) => {
     // console.log(completions.data.choices[0].message.content)
 
     // get the bot's answer from the OpenAI API response
-    const botAnswer = completions?.data.choices?.[0]?.message?.content
+    const botAnswer = completions?.data.choices?.[0]?.message?.content;
 
     // create the bot message object
     const botMessage = { role: "assistant", content: botAnswer };
 
     // store bot message in global message state
-    console.log(botMessage)
+    console.log(botMessage);
 
     // send the bot's answer back to the client
     return res.json({ data: botAnswer });
-
+    
   } catch (error) {
     if (error.response) {
       console.error(error.response.status, error.response.data);
