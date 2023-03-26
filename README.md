@@ -1,5 +1,5 @@
-# Project name
-This project is a chat application where users can join rooms and message each other. They can also use the suggestion tool which will automatically suggest a respose based on the last mesasge you received. It is built using React JS, Socket.io, Node.js and OpenAI API. 
+# TextGPT
+TextGPT is a chat application powered by GPT-3 model where users can join rooms and message each other. They can also use the suggestion tool which will automatically suggest a respose based on the last mesasge you received. It is built using React JS, Socket.io, Node.js and OpenAI API. 
 
 ## How to use it
 - Enter your name and click a room number to join.
