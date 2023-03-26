@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
+import SuggestIcon from "./icons/SuggestIcon";
 
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
@@ -22,7 +23,7 @@ function Chat({ socket, username, room }) {
       setCurrentMessage("");
     }
   };
-  
+
   useEffect(() => {
     socket.on("receive_message", (data) => {
       const requestOptions = {
@@ -48,6 +49,9 @@ function Chat({ socket, username, room }) {
     });
   }, [socket]);
 
+  const handleSuggestIconClick = () => {
+    console.log("adsf");
+  };
   return (
     <div className="chat-window">
       <div className="chat-header">
@@ -87,6 +91,12 @@ function Chat({ socket, username, room }) {
             event.key === "Enter" && sendMessage();
           }}
         />
+        <div className="suggest-icon">
+          <button onClick={handleSuggestIconClick}>
+            <SuggestIcon />
+          </button>
+        </div>
+
         <button onClick={sendMessage}>&#9658;</button>
       </div>
     </div>

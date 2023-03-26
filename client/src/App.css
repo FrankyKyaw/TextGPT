@@ -164,7 +164,6 @@ body {
   border: 0;
   padding: 0 0.7em;
   font-size: 1em;
-  border-right: 1px dotted #607d8b;
 
   outline: none;
   font-family: "Open Sans", sans-serif;
@@ -189,3 +188,10 @@ body {
 .hide {
   opacity: 0 !important;
 }
+
+.suggest-icon {
+  border-right: 1px dotted;
+  border-left: 1px dotted;
+  padding-left: 1px;
+}
+
