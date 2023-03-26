@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import SuggestIcon from "./icons/SuggestIcon";
+import SuggestBar from "./components/SuggestBar";
 
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const [suggestClicked, setSuggestClicked] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   const sendMessage = async () => {
     if (currentMessage !== "") {
@@ -40,7 +43,8 @@ function Chat({ socket, username, room }) {
           return response.json();
         })
         .then((data) => {
-          console.log(data.data);
+          setSuggestions([]);
+          setSuggestions((list) => [...list, {title: data.data}]);
         })
         .catch((error) => {
           console.error("Error fetching suggestion:", error);
@@ -50,8 +54,18 @@ function Chat({ socket, username, room }) {
   }, [socket]);
 
   const handleSuggestIconClick = () => {
-    console.log("adsf");
+    if (suggestClicked) {
+      setSuggestClicked(false);
+    } else {
+      setSuggestClicked(true);
+    }
   };
+
+  const handleItemClick = (item) => {
+    setCurrentMessage(item.title);  
+    setSuggestClicked(false);
+  }
+
   return (
     <div className="chat-window">
       <div className="chat-header">
@@ -99,6 +113,7 @@ function Chat({ socket, username, room }) {
 
         <button onClick={sendMessage}>&#9658;</button>
       </div>
+      {suggestClicked && <SuggestBar items={suggestions} onItemClick={handleItemClick}/>}
     </div>
   );
 }

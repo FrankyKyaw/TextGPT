@@ -1,0 +1,31 @@
+.suggest-container {
+    margin-top: 10px;
+    height: auto;
+    z-index: 10; 
+    background-color: white; 
+    width: auto;
+    border-radius: 0.5rem; 
+    border-top-width: 1px; 
+    border-color: #F3F4F6; 
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); 
+}
+
+.suggest-list {
+    padding: 0;
+    color: #374151; 
+    font-size: 0.875rem;
+    line-height: 1.25rem; 
+}
+
+.suggest-list-item {
+    display: block;
+    padding-left: 2em;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    width: auto;
+}
+
+
+.suggest-list-item:hover {
+ background-color: #F3F4F6; 
+}
