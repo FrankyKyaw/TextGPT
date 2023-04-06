@@ -2,6 +2,7 @@ import "./App.css";
 import io from "socket.io-client";
 import { useState } from "react";
 import Chat from "./Chat";
+import DarkModeToggle from "./components/DarkModeToggle";
 
 const socket = io.connect("http://localhost:3001");
 
@@ -9,6 +10,11 @@ function App() {
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [showChat, setShowChat] = useState(false);
+  const [theme, setTheme] = useState("light");
+
+  function handleToggle () {
+    setTheme(theme == 'light' ? 'dark' : 'light');
+  }
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
@@ -18,7 +24,10 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App" id={theme}>
+      <div className="toggle-button">
+        <DarkModeToggle handleToggle={handleToggle}/>
+      </div>
       {!showChat ? (
         <div className="joinChatContainer">
           <h3>Join A Chat</h3>
